@@ -10,7 +10,7 @@ import { useState } from 'react'
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
 
-  const openCartHandler = useCallback((e: Event) => {
+  const openCartHandler = useCallback(() => {
     setIsCartOpen(true)
   }, [])
 
