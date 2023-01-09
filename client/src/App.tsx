@@ -1,5 +1,13 @@
-const App = () => {
-  return <div>React started!</div>;
-};
+import MainPage from 'pages/MainPage/MainPage'
 
-export default App;
+import 'assets/css/normalize.css'
+
+const App = () => {
+  return (
+    <>
+      <MainPage />
+    </>
+  )
+}
+
+export default App
