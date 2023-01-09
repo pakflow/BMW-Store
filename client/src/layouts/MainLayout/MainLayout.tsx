@@ -1,36 +1,40 @@
-import { FC, PropsWithChildren, useMemo } from 'react'
-import Sidebar from 'ui/Sidebar/Sidebar'
-import useCartManager from 'utils/cart-manager/hooks/useCartManager'
-import Navbar from './components/Navbar'
+import { FC, PropsWithChildren } from 'react'
+
+import { Cart } from '@components/Cart'
+import { Drawer } from 'ui/Drawer'
+import Header from './components/Header/Header'
+import { useCallback } from 'react'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
-  const { getState, close, open } = useCartManager()
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
 
-  const sidebarContent = useMemo(
-    () => (
-      <ul className="menu p-4 w-80 bg-base-100 text-base-content">
-        <li>
-          <a>Sidebar Item 1</a>
-        </li>
-        <li>
-          <a>Sidebar Item 2</a>
-        </li>
-      </ul>
-    ),
-    []
-  )
+  const openCartHandler = useCallback((e: Event) => {
+    setIsCartOpen(true)
+  }, [])
+
+  const closeCartHandler = useCallback(() => {
+    setIsCartOpen(false)
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('BS:open_cart', openCartHandler)
+
+    return () => {
+      window.removeEventListener('BS:open_cart', openCartHandler)
+    }
+  }, [openCartHandler])
 
   return (
-    <div>
-      <Sidebar
-        open={getState().isOpen}
-        onClose={close}
-        content={sidebarContent}
-      >
-        <Navbar />
-        <div>{children}</div>
-      </Sidebar>
-    </div>
+    <Drawer open={isCartOpen} onClose={closeCartHandler} end content={<Cart />}>
+      <div>
+        {/* Header */}
+        <Header />
+        {/* content */}
+        <div className="mt-5">{children}</div>
+      </div>
+    </Drawer>
   )
 }
 

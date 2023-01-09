@@ -1,25 +1,24 @@
 import { FC, PropsWithChildren } from 'react'
 
-type SideBarProps = {
+import cn from 'classnames'
+
+type DrawerProps = {
   open: boolean
   onClose: () => void
   content?: JSX.Element
+  end?: boolean
 }
 
-const Sidebar: FC<PropsWithChildren<SideBarProps>> = ({
+const Drawer: FC<PropsWithChildren<DrawerProps>> = ({
   open,
-  onClose,
   content,
   children,
+  onClose,
+  end,
 }) => {
   return (
-    <div className="drawer drawer-end">
-      <input
-        id="my-drawer-4"
-        checked={open}
-        type="checkbox"
-        className="drawer-toggle"
-      />
+    <div className={cn('drawer', end && 'drawer-end')}>
+      <input checked={open} type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">{children}</div>
       <div className="drawer-side">
         <label onClick={onClose} className="drawer-overlay"></label>
@@ -29,4 +28,4 @@ const Sidebar: FC<PropsWithChildren<SideBarProps>> = ({
   )
 }
 
-export default Sidebar
+export default Drawer

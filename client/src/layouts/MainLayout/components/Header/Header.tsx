@@ -1,24 +1,25 @@
-import { FC, PropsWithChildren } from 'react'
-import bmwlogo from '@assets/icons/bmwlogo.png'
+import { FC } from 'react'
 import basket from '@assets/icons/basket.svg'
+import bmwlogo from '@assets/icons/bmwlogo.png'
 import profile from '@assets/icons/profile.svg'
+import styles from './Header.module.scss'
+import { useCallback } from 'react'
 
-import s from './styles.module.scss'
-import useCartManager from 'utils/cart-manager/hooks/useCartManager'
-
-const Navbar: FC<PropsWithChildren> = () => {
-  const { open } = useCartManager()
+const Header: FC = () => {
+  const openCart = useCallback(() => {
+    window.dispatchEvent(new Event('BS:open_cart'))
+  }, [])
 
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <img className={s.logo} src={bmwlogo} alt="logo" />
+        <img className={styles.logo} src={bmwlogo} alt="logo" />
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <div className="indicator">
-              <img className={s.basket_logo} src={basket} alt="basket" />
+              <img className={styles.basket_logo} src={basket} alt="basket" />
               <span className="badge badge-sm indicator-item">8</span>
             </div>
           </label>
@@ -30,13 +31,11 @@ const Navbar: FC<PropsWithChildren> = () => {
               <span className="font-bold text-lg">8 Items</span>
               <span className="text-info">Subtotal: $999</span>
               <div className="card-actions">
-                <button onClick={open} className="btn btn-primary btn-block">
-                  <label
-                    htmlFor="my-drawer-4"
-                    className="drawer-button btn btn-primary"
-                  >
-                    View cart
-                  </label>
+                <button
+                  onClick={openCart}
+                  className="btn btn-primary btn-block"
+                >
+                  View cart
                 </button>
               </div>
             </div>
@@ -45,7 +44,11 @@ const Navbar: FC<PropsWithChildren> = () => {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <div className="w-10 rounded-full">
-              <img className={s.profile_logo} src={profile} alt="profile" />
+              <img
+                className={styles.profile_logo}
+                src={profile}
+                alt="profile"
+              />
             </div>
           </label>
           <ul
@@ -73,4 +76,4 @@ const Navbar: FC<PropsWithChildren> = () => {
   )
 }
 
-export default Navbar
+export default Header
