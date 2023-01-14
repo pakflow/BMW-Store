@@ -4,7 +4,7 @@ import MainLayout from 'layouts/MainLayout/MainLayout'
 const MainPage: FC<PropsWithChildren> = () => {
   return (
     <div>
-      <MainLayout>Start</MainLayout>
+      <MainLayout></MainLayout>
     </div>
   )
 }

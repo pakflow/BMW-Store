@@ -10,6 +10,10 @@ const Header: FC = () => {
     window.dispatchEvent(new Event('BS:open_cart'))
   }, [])
 
+  const openAuth = useCallback(() => {
+    window.dispatchEvent(new Event('BS:open_auth'))
+  }, [])
+
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
@@ -55,14 +59,12 @@ const Header: FC = () => {
             tabIndex={0}
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <label htmlFor="my-modal-5">
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-            </label>
+            <li>
+              <a onClick={openAuth} className="justify-between">
+                Profile
+              </a>
+            </li>
+
             <li>
               <a>Settings</a>
             </li>

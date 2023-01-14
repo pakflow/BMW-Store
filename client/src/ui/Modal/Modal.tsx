@@ -1,14 +1,13 @@
 import { FC, PropsWithChildren } from 'react'
 
-type DrawerProps = {
+export type ModalProps = {
   open: boolean
   onClose: () => void
   content?: JSX.Element
 }
 
-const Modal: FC<PropsWithChildren<DrawerProps>> = ({
+const Modal: FC<PropsWithChildren<ModalProps>> = ({
   open,
-  content,
   children,
   onClose,
 }) => {
@@ -17,23 +16,20 @@ const Modal: FC<PropsWithChildren<DrawerProps>> = ({
       <input
         checked={open}
         type="checkbox"
-        id="my-modal-5"
+        id="my-modal-3"
         className="modal-toggle"
       />
+
       <div className="modal">
-        <div className="modal-box w-11/12 max-w-5xl">
-          <h3 className="font-bold text-lg">
-            Congratulations random Internet user!
-          </h3>
-          <p className="py-4">
-            You've been selected for a chance to get one year of subscription to
-            use Wikipedia for free!
-          </p>
-          <div className="modal-action">
-            <label htmlFor="my-modal-5" className="btn">
-              Yay!
-            </label>
-          </div>
+        <div className="modal-box relative">
+          <label
+            htmlFor="my-modal-3"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
+            onClick={onClose}
+          >
+            ✕
+          </label>
+          {children}
         </div>
       </div>
     </div>
