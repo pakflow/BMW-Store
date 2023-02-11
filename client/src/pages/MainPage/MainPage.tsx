@@ -1,11 +1,14 @@
 import { FC, PropsWithChildren } from 'react'
 import MainLayout from 'layouts/MainLayout/MainLayout'
+import ProductList from '@components/ProductList/ProductList'
+import Filterbar from '@components/Filterbar/Filterbar'
 
 const MainPage: FC<PropsWithChildren> = () => {
   return (
-    <div>
-      <MainLayout></MainLayout>
-    </div>
+    <MainLayout>
+      <Filterbar />
+      <ProductList />
+    </MainLayout>
   )
 }
 

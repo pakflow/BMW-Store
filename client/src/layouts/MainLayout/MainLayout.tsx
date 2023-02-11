@@ -7,7 +7,7 @@ import { useCallback } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Modal } from 'ui/Modal'
-import Auth from '@components/Auth/Auth'
+import LoginForm from '@components/LoginForm/LoginForm'
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
@@ -50,12 +50,12 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
     <Drawer open={isCartOpen} onClose={closeCartHandler} end content={<Cart />}>
       <div>
         <Modal open={isAuthOpen} onClose={closeAuthHandler}>
-          <Auth />
+          <LoginForm />
         </Modal>
         {/* Header */}
         <Header />
         {/* content */}
-        <div className="mt-5">{children}</div>
+        <div className="mt-5 px-4 flex justify-between">{children}</div>
       </div>
     </Drawer>
   )

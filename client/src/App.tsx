@@ -1,11 +1,18 @@
 import MainPage from 'pages/MainPage/MainPage'
 
 import 'assets/css/normalize.css'
+import AuthContextProvider from 'context/AuthContextProvider'
+import { Provider } from 'react-redux'
+import store from 'store/store'
 
 const App = () => {
   return (
     <>
-      <MainPage />
+      <Provider store={store}>
+        <AuthContextProvider>
+          <MainPage />
+        </AuthContextProvider>
+      </Provider>
     </>
   )
 }

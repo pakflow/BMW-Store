@@ -3,7 +3,6 @@ import { FC, PropsWithChildren } from 'react'
 export type ModalProps = {
   open: boolean
   onClose: () => void
-  content?: JSX.Element
 }
 
 const Modal: FC<PropsWithChildren<ModalProps>> = ({
@@ -21,7 +20,7 @@ const Modal: FC<PropsWithChildren<ModalProps>> = ({
       />
 
       <div className="modal">
-        <div className="modal-box relative">
+        <div className="modal-box relative w-[364px] h-[465px]">
           <label
             htmlFor="my-modal-3"
             className="btn btn-sm btn-circle absolute right-2 top-2"
