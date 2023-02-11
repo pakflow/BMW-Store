@@ -1,6 +1,6 @@
-import { ChangeEvent, FC, useCallback, useState } from 'react'
+import { ChangeEvent, FC, useCallback, useState, MouseEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'store/store'
+import { AppDispatch, RootState } from 'store/store'
 import { loginUserThunk, signUpUserThunk } from 'store/slices/authSlice'
 
 const LoginForm: FC = () => {
@@ -9,28 +9,41 @@ const LoginForm: FC = () => {
 
   const user = useSelector((state: RootState) => state.auth.user)
 
-  const dispatch = useDispatch()
-  const handleSignup = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      event.preventDefault()
-      dispatch(
-        signUpUserThunk({
-          email: email,
-          password: password,
-        }) as any
-      )
-    },
-    [dispatch, email, password]
-  )
+  const dispatch = useDispatch<AppDispatch>()
+  // const handleSignup = useCallback(
+  //   (event: ChangeEvent<HTMLInputElement>) => {
+  //     event.preventDefault()
+  //     dispatch(
+  //       signUpUserThunk({
+  //         email: email,
+  //         password: password,
+  //       })
+  //     )
+  //   },
+  //   [dispatch, email, password]
+  // )
+
+  // const handleLogin = (e: MouseEvent<HTMLElement>) => {
+  //   e.preventDefault()
+
+  //   dispatch(
+  //     loginUserThunk({
+  //       email: email,
+  //       password: password,
+  //     })
+  //   )
+
+  //   console.log(email, password)
+  // }
 
   const handleLogin = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
+    (event: MouseEvent<HTMLElement>) => {
       event.preventDefault()
       dispatch(
         loginUserThunk({
           email: email,
           password: password,
-        }) as any
+        })
       )
     },
     [dispatch, email, password]
@@ -74,11 +87,7 @@ const LoginForm: FC = () => {
         </label>
       </div>
       <div className="form-control mt-6">
-        <button
-          type="submit"
-          onClick={() => handleLogin}
-          className="btn btn-primary"
-        >
+        <button type="submit" onClick={handleLogin} className="btn btn-primary">
           Login
         </button>
       </div>
