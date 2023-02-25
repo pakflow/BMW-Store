@@ -5,6 +5,9 @@ import profile from '@assets/icons/profile.svg'
 import { useCallback } from 'react'
 
 import styles from './Header.module.scss'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useThunkDispatch } from 'hooks'
+import { logoutUserThunk } from 'store/slices/authSlice'
 
 const Header: FC = () => {
   const openCart = useCallback(() => {
@@ -14,6 +17,14 @@ const Header: FC = () => {
   const openAuth = useCallback(() => {
     window.dispatchEvent(new Event('BS:open_auth'))
   }, [])
+
+  const { handleSubmit } = useForm<FormData>()
+
+  const dispatch = useThunkDispatch()
+
+  const handleLogout: SubmitHandler<FormData> = () => {
+    dispatch(logoutUserThunk())
+  }
 
   return (
     <div className="p-4">
@@ -62,16 +73,16 @@ const Header: FC = () => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a onClick={openAuth} className="justify-between">
+                <button onClick={openAuth} className="justify-between">
                   Profile
-                </a>
+                </button>
               </li>
 
               <li>
-                <a>Settings</a>
+                <button>Settings</button>
               </li>
               <li>
-                <a>Logout</a>
+                <button onClick={handleSubmit(handleLogout)}>Logout</button>
               </li>
             </ul>
           </div>

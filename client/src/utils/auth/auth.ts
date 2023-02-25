@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  signOut,
 } from 'firebase/auth'
 import app from 'firebaseSetup'
 
@@ -13,4 +14,8 @@ export const signUp = (email: string, password: string) => {
 
 export const login = (email: string, password: string) => {
   return signInWithEmailAndPassword(auth, email, password)
+}
+
+export const logout = () => {
+  return signOut(auth)
 }

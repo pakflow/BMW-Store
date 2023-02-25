@@ -8,12 +8,8 @@ const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
     return state.auth.user
   })
 
-  const logOut = () => [console.log('logout')]
-
   return (
-    <AuthContext.Provider value={{ logOut, user }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   )
 }
 

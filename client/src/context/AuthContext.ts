@@ -3,7 +3,6 @@ import { User } from 'firebase/auth'
 
 type AuthContextPayload = {
   user: User | null
-  logOut: () => void
 }
 
 export const AuthContext = createContext<AuthContextPayload | null>(null)

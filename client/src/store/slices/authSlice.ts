@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { login, signUp } from 'utils/auth/auth'
+import { login, logout, signUp } from 'utils/auth/auth'
 import { User } from 'firebase/auth'
 
 export const signUpUserThunk = createAsyncThunk(
@@ -19,6 +19,12 @@ export const loginUserThunk = createAsyncThunk(
   }
 )
 
+export const logoutUserThunk = createAsyncThunk('auth/logout', async () => {
+  const response = await logout()
+  localStorage.removeItem('user')
+  return response
+})
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -28,6 +34,12 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signUpUserThunk.fulfilled, (state, action) => {
       state.user = action.payload
+    })
+    builder.addCase(loginUserThunk.fulfilled, (state, action) => {
+      state.user = action.payload
+    })
+    builder.addCase(logoutUserThunk.fulfilled, (state) => {
+      state.user = null
     })
   },
 })
