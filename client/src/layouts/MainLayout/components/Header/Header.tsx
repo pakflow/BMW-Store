@@ -8,6 +8,7 @@ import styles from './Header.module.scss'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useThunkDispatch } from 'hooks'
 import { logoutUserThunk } from 'store/slices/authSlice'
+import { FormData } from '@components/LoginForm/LoginForm'
 
 const Header: FC = () => {
   const openCart = useCallback(() => {

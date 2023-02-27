@@ -1,12 +1,15 @@
 import { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
-import { loginUserThunk, signUpUserThunk } from 'store/slices/authSlice'
+import { loginUserThunk } from 'store/slices/authSlice'
 import { useForm, SubmitHandler } from 'react-hook-form'
 // import { Link } from 'react-router-dom'
 import { useThunkDispatch } from 'hooks'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { schema } from 'utils/yup/yup'
+// import { googleAuth } from 'utils/auth/auth'
 
-type FormData = {
+export type FormData = {
   email: string
   password: string
 }
@@ -21,6 +24,7 @@ const LoginForm: FC = () => {
       email: '',
       password: '',
     },
+    resolver: yupResolver(schema),
   })
   const dispatch = useThunkDispatch()
   const user = useSelector((state: RootState) => state.auth.user)
@@ -58,7 +62,7 @@ const LoginForm: FC = () => {
             type="email"
             placeholder="email"
             className="input input-bordered"
-            {...(register('email'), { required: true, maxLength: 35 })}
+            {...register('email', { required: true })}
           />
           <p role="alert">{errors.email?.message}</p>
         </div>
@@ -70,7 +74,7 @@ const LoginForm: FC = () => {
             type="password"
             placeholder="password"
             className="input input-bordered"
-            {...register('password')}
+            {...register('password', { required: true })}
           />
           <p>{errors.password?.message}</p>
           <label className="label">
@@ -85,6 +89,13 @@ const LoginForm: FC = () => {
           </button>
         </div>
       </form>
+      <p>
+        Continue with{' '}
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2875/2875404.png"
+          alt="googleAuth"
+        />
+      </p>
     </div>
   )
 }
