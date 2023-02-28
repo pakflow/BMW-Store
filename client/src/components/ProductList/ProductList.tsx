@@ -7,7 +7,7 @@ const ProductList: FC<PropsWithChildren> = () => {
   return (
     <div>
       <Search />
-      <div className="grid grid-cols-4 ">
+      <div className="grid grid-cols-4">
         <ProductCard />
         <ProductCard />
         <ProductCard />

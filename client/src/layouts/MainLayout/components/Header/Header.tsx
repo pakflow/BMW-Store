@@ -9,6 +9,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { useThunkDispatch } from 'hooks'
 import { logoutUserThunk } from 'store/slices/authSlice'
 import { FormData } from '@components/LoginForm/LoginForm'
+import { useSelector } from 'react-redux'
+import { RootState } from 'store/store'
 
 const Header: FC = () => {
   const openCart = useCallback(() => {
@@ -19,6 +21,10 @@ const Header: FC = () => {
     window.dispatchEvent(new Event('BS:open_auth'))
   }, [])
 
+  const openSignup = useCallback(() => {
+    window.dispatchEvent(new Event('BS:open_signup'))
+  }, [])
+
   const { handleSubmit } = useForm<FormData>()
 
   const dispatch = useThunkDispatch()
@@ -26,6 +32,8 @@ const Header: FC = () => {
   const handleLogout: SubmitHandler<FormData> = () => {
     dispatch(logoutUserThunk())
   }
+
+  const user = useSelector((state: RootState) => state.auth.user)
 
   return (
     <div className="p-4">
@@ -64,7 +72,7 @@ const Header: FC = () => {
               <div className="w-10 rounded-full flex justify-center">
                 <img
                   className={styles.profile_logo}
-                  src={profile}
+                  src={user && user.photoURL ? user.photoURL : profile}
                   alt="profile"
                 />
               </div>
@@ -75,12 +83,12 @@ const Header: FC = () => {
             >
               <li>
                 <button onClick={openAuth} className="justify-between">
-                  Profile
+                  Log In
                 </button>
               </li>
 
               <li>
-                <button>Settings</button>
+                <button onClick={openSignup}>Sign Up</button>
               </li>
               <li>
                 <button onClick={handleSubmit(handleLogout)}>Logout</button>
