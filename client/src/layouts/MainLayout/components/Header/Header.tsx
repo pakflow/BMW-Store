@@ -41,6 +41,7 @@ const Header: FC = () => {
         <div className="flex-1">
           <img className={styles.logo} src={bmwlogo} alt="logo" />
         </div>
+        {user ? <span className="badge">{user?.email}</span> : null}
         <div className="flex-none">
           <div className="dropdown dropdown-end mr-2">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
