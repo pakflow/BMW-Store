@@ -1,13 +1,12 @@
 import { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
-import { loginUserThunk } from 'store/slices/authSlice'
+import { googleUserThunk, loginUserThunk } from 'store/slices/authSlice'
 import { useForm, SubmitHandler } from 'react-hook-form'
 // import { Link } from 'react-router-dom'
 import { useThunkDispatch } from 'hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from 'utils/yup/yup'
-// import { googleAuth } from 'utils/auth/auth'
 
 export type FormData = {
   email: string
@@ -45,6 +44,10 @@ const LoginForm: FC = () => {
         password: data.password,
       })
     )
+  }
+
+  const googleLogin = () => {
+    dispatch(googleUserThunk())
   }
 
   return (
@@ -89,13 +92,16 @@ const LoginForm: FC = () => {
           </button>
         </div>
       </form>
-      <p>
-        Continue with{' '}
+      <div>
+        <label className="label flex justify-center">or</label>
+        <span>Continue with</span>
         <img
           src="https://cdn-icons-png.flaticon.com/512/2875/2875404.png"
           alt="googleAuth"
+          className="w-8 h-8 flex"
+          onClick={googleLogin}
         />
-      </p>
+      </div>
     </div>
   )
 }

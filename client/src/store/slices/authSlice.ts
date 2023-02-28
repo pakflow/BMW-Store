@@ -20,14 +20,12 @@ export const loginUserThunk = createAsyncThunk(
   }
 )
 
-export const googleUserThunk = createAsyncThunk(
-  'auth/google',
-  async (data: { email: string }) => {
-    const response = await googleAuth()
-    localStorage.setItem('user', JSON.stringify(response))
-    return response
-  }
-)
+export const googleUserThunk = createAsyncThunk('auth/google', async () => {
+  const response = await googleAuth()
+  console.log(response)
+  localStorage.setItem('user', JSON.stringify(response))
+  return response
+})
 
 export const logoutUserThunk = createAsyncThunk('auth/logout', async () => {
   const response = await logout()

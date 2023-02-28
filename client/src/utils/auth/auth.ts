@@ -21,13 +21,9 @@ export const login = (email: string, password: string) => {
 }
 
 export const googleAuth = () => {
-  try {
-    signInWithPopup(auth, googleProvider).then((user) => {
-      console.log(user)
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  return signInWithPopup(auth, googleProvider).then((data) => {
+    return data.user
+  })
 }
 
 export const logout = () => {
