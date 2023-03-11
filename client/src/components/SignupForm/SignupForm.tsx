@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { FormData } from '@components/LoginForm/LoginForm'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from 'utils/yup/yup'
-import { useThunkDispatch } from 'hooks'
+import { useThunkDispatch } from 'utils/hooks'
 import { signUpUserThunk } from 'store/slices/authSlice'
 
 const SigninForm = () => {

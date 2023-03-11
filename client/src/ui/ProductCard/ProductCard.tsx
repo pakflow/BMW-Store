@@ -1,6 +1,17 @@
-import React from 'react'
+import { useThunkDispatch } from 'utils/hooks'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from 'store/store'
 
 const ProductCard = () => {
+  const products = useSelector((state: RootState) => state.api)
+
+  const dispatch = useThunkDispatch()
+
+  // useEffect(() => {
+  //   console.log(products)
+  // }, [])
+
   return (
     <div className="card w-80 h-72 m-4 bg-base-100 shadow-xl">
       <figure>

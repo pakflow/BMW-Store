@@ -2,7 +2,7 @@ import { FC, PropsWithChildren } from 'react'
 
 import { Cart } from '@components/Cart'
 import { Drawer } from 'ui/Drawer'
-import Header from './components/Header/Header'
+import Header from '../common/Header/Header'
 import { useCallback } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'

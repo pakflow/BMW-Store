@@ -1,9 +1,12 @@
 import { FC } from 'react'
 import { googleUserThunk, loginUserThunk } from 'store/slices/authSlice'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useThunkDispatch } from 'hooks'
+import { useThunkDispatch } from 'utils/hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from 'utils/yup/yup'
+import { useSelector } from 'react-redux'
+import { RootState } from 'store/store'
+import { Link } from 'react-router-dom'
 
 export type FormData = {
   email: string
@@ -23,6 +26,8 @@ const LoginForm: FC = () => {
     resolver: yupResolver(schema),
   })
   const dispatch = useThunkDispatch()
+
+  const user = useSelector((state: RootState) => state.auth.user)
 
   const handleLogin: SubmitHandler<FormData> = (data) => {
     dispatch(
@@ -80,6 +85,11 @@ const LoginForm: FC = () => {
           onClick={googleLogin}
         />
       </div>
+      {user?.email === 'bboy.mars.97@gmail.com' ? (
+        <button>
+          <Link to={'/admin'}>Admin Page</Link>
+        </button>
+      ) : null}
     </div>
   )
 }
