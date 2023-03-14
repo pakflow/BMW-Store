@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  DocumentData,
   getDoc,
   getDocs,
   getFirestore,
@@ -59,16 +60,16 @@ export const getSingleProduct = (id: string) => {
   return getDoc(docRef)
 }
 
+//Update
+export const updateProduct = (id: string, updatedProduct: DocumentData) => {
+  const docRef = doc(db, 'products', id)
+
+  return updateDoc(docRef, updatedProduct)
+}
+
 //Delete
 export const deleteProduct = (id: string) => {
   const docRef = doc(db, 'products', id)
 
   return deleteDoc(docRef)
 }
-
-//Update
-// export const updateProduct = (id: string, updatedProduct: IProduct) => {
-//   const docRef = doc(db, 'products', id)
-
-//   return updateDoc(docRef, updatedProduct)
-// }

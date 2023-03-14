@@ -1,33 +1,23 @@
 import Header from 'layouts/common/Header/Header'
-import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react'
+import { FC, PropsWithChildren, useEffect } from 'react'
 import { Modal } from 'ui/Modal'
+import { useModal } from 'utils/hooks'
 import CreateForm from './components/CreateForm'
 
 const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
-  const [isCreateProductOpen, setIsCreateProductOpen] = useState<boolean>(false)
-
-  const openCreateProductHandler = useCallback(() => {
-    setIsCreateProductOpen(true)
-  }, [])
-
-  const closeCreateProductHandler = useCallback(() => {
-    setIsCreateProductOpen(false)
-  }, [])
+  const { isOpen, open, close } = useModal()
 
   useEffect(() => {
-    window.addEventListener('BS:open_createProduct', openCreateProductHandler)
+    window.addEventListener('BS:open_createProduct', open)
 
     return () => {
-      window.removeEventListener(
-        'BS:open_createProduct',
-        openCreateProductHandler
-      )
+      window.removeEventListener('BS:open_createProduct', open)
     }
-  }, [openCreateProductHandler])
+  }, [open])
 
   return (
     <div>
-      <Modal open={isCreateProductOpen} onClose={closeCreateProductHandler}>
+      <Modal open={isOpen} onClose={close}>
         <CreateForm />
       </Modal>
       <Header />

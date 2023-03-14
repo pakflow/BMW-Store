@@ -3,75 +3,52 @@ import { FC, PropsWithChildren } from 'react'
 import { Cart } from '@components/Cart'
 import { Drawer } from 'ui/Drawer'
 import Header from '../common/Header/Header'
-import { useCallback } from 'react'
 import { useEffect } from 'react'
-import { useState } from 'react'
 import { Modal } from 'ui/Modal'
 import LoginForm from '@components/LoginForm/LoginForm'
 import SignupForm from '@components/SignupForm/SignupForm'
+import { useModal } from 'utils/hooks'
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
-  const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
-
-  const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false)
-
-  const [isSignupOpen, setIsSignupOpen] = useState<boolean>(false)
-
-  const openCartHandler = useCallback(() => {
-    setIsCartOpen(true)
-  }, [])
-
-  const closeCartHandler = useCallback(() => {
-    setIsCartOpen(false)
-  }, [])
-
-  const openAuthHandler = useCallback(() => {
-    setIsAuthOpen(true)
-  }, [])
-
-  const closeAuthHandler = useCallback(() => {
-    setIsAuthOpen(false)
-  }, [])
-
-  const openSignupHandler = useCallback(() => {
-    setIsSignupOpen(true)
-  }, [])
-
-  const closeSignupHandler = useCallback(() => {
-    setIsSignupOpen(false)
-  }, [])
+  const { isOpen: isOpenCart, open: openCart, close: closeCart } = useModal()
+  const { isOpen: isOpenAuth, open: openAuth, close: closeAuth } = useModal()
+  const {
+    isOpen: isOpenSignUp,
+    open: openSignup,
+    close: closeSignup,
+  } = useModal()
 
   useEffect(() => {
-    window.addEventListener('BS:open_cart', openCartHandler)
+    window.addEventListener('BS:open_cart', openCart)
 
     return () => {
-      window.removeEventListener('BS:open_cart', openCartHandler)
+      window.removeEventListener('BS:open_cart', openCart)
     }
-  }, [openCartHandler])
+  }, [openCart])
 
   useEffect(() => {
-    window.addEventListener('BS:open_auth', openAuthHandler)
+    window.addEventListener('BS:open_auth', openAuth)
 
     return () => {
-      window.removeEventListener('BS:open_auth', openAuthHandler)
+      window.removeEventListener('BS:open_auth', openAuth)
     }
-  }, [openAuthHandler])
+  }, [openAuth])
 
   useEffect(() => {
-    window.addEventListener('BS:open_signup', openSignupHandler)
+    window.addEventListener('BS:open_signup', openSignup)
 
     return () => {
-      window.removeEventListener('BS:open_signup', openSignupHandler)
+      window.removeEventListener('BS:open_signup', openSignup)
     }
-  }, [openSignupHandler])
+  }, [openSignup])
 
   return (
-    <Drawer open={isCartOpen} onClose={closeCartHandler} end content={<Cart />}>
+    <Drawer open={isOpenCart} onClose={closeCart} end content={<Cart />}>
       <div>
-        <Modal open={isAuthOpen} onClose={closeAuthHandler}>
+        <Modal open={isOpenAuth} onClose={closeAuth}>
           <LoginForm />
         </Modal>
-        <Modal open={isSignupOpen} onClose={closeSignupHandler}>
+        <Modal open={isOpenSignUp} onClose={closeSignup}>
           <SignupForm />
         </Modal>
         {/* Header */}
