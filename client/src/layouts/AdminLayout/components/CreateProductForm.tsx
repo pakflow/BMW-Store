@@ -1,31 +1,39 @@
-import { IProduct } from 'db/db'
-import { FC } from 'react'
+import { ProductEntity } from 'entities/ProductEntity'
+import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { createProductThunk } from 'store/slices/productSlice'
 import { useThunkDispatch } from 'utils/hooks'
-import { uuidv4 } from '@firebase/util'
+import { useSelector } from 'react-redux'
+import { RootState } from 'store/store'
+import { getCategoriesAsyncThunk } from 'store/slices/categoriesSlice'
 
-const CreateForm: FC = () => {
-  const { register, handleSubmit } = useForm<IProduct>()
+const CreateProductForm: FC = () => {
+  const { register, handleSubmit } = useForm<ProductEntity>()
 
   const dispatch = useThunkDispatch()
 
-  const handleCreateProduct: SubmitHandler<IProduct> = (data) => {
-    console.log(data)
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories
+  )
+
+  const handleCreateProduct: SubmitHandler<ProductEntity> = (data) => {
     dispatch(
       createProductThunk({
         name: data.name,
         price: data.price,
         capacity: data.capacity,
         buildYear: data.buildYear,
-        id: uuidv4(),
         imageUrl: data.imageUrl,
         description: data.description,
         rating: 0,
-        category: { id: uuidv4(), name: data.category.name },
+        category: data.category,
       })
     )
   }
+
+  useEffect(() => {
+    dispatch(getCategoriesAsyncThunk())
+  }, [dispatch])
 
   return (
     <div>
@@ -81,15 +89,14 @@ const CreateForm: FC = () => {
             </label>
             <select
               className="select select-bordered"
-              {...register('category.name')}
+              {...register('category')}
             >
               <option disabled selected>
                 choose one
               </option>
-              <option>petrol</option>
-              <option>hybrid</option>
-              <option>electro</option>
-              <option>diesel</option>
+              {categories.map((data) => {
+                return <option>{data.category}</option>
+              })}
             </select>
           </div>
           <div className="form-control">
@@ -131,4 +138,4 @@ const CreateForm: FC = () => {
   )
 }
 
-export default CreateForm
+export default CreateProductForm
