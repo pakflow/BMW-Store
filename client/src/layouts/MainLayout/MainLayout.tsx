@@ -1,12 +1,11 @@
 import { FC, PropsWithChildren } from 'react'
-
 import { Cart } from '@components/Cart'
 import { Drawer } from 'ui/Drawer'
-import Header from '../common/Header/Header'
+import { Header } from '../common/Header'
 import { useEffect } from 'react'
 import { Modal } from 'ui/Modal'
-import LoginForm from '@components/LoginForm/LoginForm'
-import SignupForm from '@components/SignupForm/SignupForm'
+import { LoginForm } from '@components/LoginForm'
+import { SignupForm } from '@components/SignupForm'
 import { useModal } from 'utils/hooks'
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {

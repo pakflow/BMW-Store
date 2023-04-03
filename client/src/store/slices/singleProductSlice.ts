@@ -16,7 +16,7 @@ const initialState: SingleProductSliceInitialState = {
 
 const STORE_KEY = 'product'
 
-export const getSingleProductThunk = createAsyncThunk(
+export const getSingleProductAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/getSingleProduct`,
   async (id: string) => {
     const response = await getSingleProduct(id)
@@ -30,7 +30,7 @@ export const singleProductSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getSingleProductThunk.fulfilled, (state, action) => {
+    builder.addCase(getSingleProductAsyncThunk.fulfilled, (state, action) => {
       state.product = action.payload
     })
   },

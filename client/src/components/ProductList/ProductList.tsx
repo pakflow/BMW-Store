@@ -1,46 +1,64 @@
-import { FC, useEffect, useMemo } from 'react'
-import ProductCard from 'ui/ProductCard/ProductCard'
-import Search from 'ui/Search/Search'
-import Pagination from 'ui/Pagination/Pagination'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { ProductCard } from 'ui/ProductCard'
+import { Search } from 'ui/Search'
+import { Pagination } from 'ui/Pagination'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/store'
 import { useThunkDispatch } from 'utils/hooks'
-import { getProductsThunk } from 'store/slices/productSlice'
-import LoadingSpinner from 'ui/LoadingSpinner/LoadingSpinner'
+import { getProductsAsyncThunk, selectors } from 'store/slices/productSlice'
+import { ProductEntity } from 'entities/ProductEntity'
+import { ProductsLoading } from 'ui/ProductsLoading'
 
 const ProductList: FC = () => {
-  const products = useSelector((state: RootState) => state.products.products)
-  const productsLoadingStatus = useSelector(
-    (state: RootState) => state.products.loading
-  )
+  const products = useSelector(selectors.products)
+  const productsLoading = useSelector(selectors.productsLoading)
+  const productsLoaded = useSelector(selectors.productsLoaded)
 
   const dispatch = useThunkDispatch()
 
   useEffect(() => {
-    dispatch(getProductsThunk())
+    dispatch(getProductsAsyncThunk())
   }, [dispatch])
+
+  const [page, setPage] = useState(1)
+
+  const OFFSET = 8
+  const pagesCount = Math.ceil(products.length / OFFSET)
+
+  const productsSliced = useMemo(() => {
+    return products.slice((page - 1) * OFFSET, page * OFFSET)
+  }, [page, products])
+
+  const changePage = useCallback((value: number) => {
+    setPage(value)
+  }, [])
 
   const productsList = useMemo(() => {
     return products.length ? (
       <div className="grid grid-cols-4">
-        {products.map((product) => {
-          return <ProductCard product={product} />
+        {productsSliced.map((product: ProductEntity) => {
+          return <ProductCard key={product.id} product={product} />
         })}
       </div>
     ) : (
       <div>Products list empty</div>
     )
-  }, [products])
+  }, [products, productsSliced])
 
-  if (productsLoadingStatus) {
-    return <LoadingSpinner />
+  if (productsLoading) {
+    return <ProductsLoading />
   }
 
   return (
     <div>
       <Search />
-      {productsLoadingStatus ? <LoadingSpinner /> : productsList}
-      <Pagination />
+      {productsLoaded && productsList}
+      {productsLoaded && products.length && (
+        <Pagination
+          totalCount={pagesCount}
+          currentPage={page}
+          onPageChange={(value: number) => changePage(value)}
+        />
+      )}
     </div>
   )
 }

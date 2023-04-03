@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { getCategoriesAsyncThunk } from 'store/slices/categoriesSlice'
-import { updateProductThunk } from 'store/slices/productSlice'
+import { updateProductAsyncThunk } from 'store/slices/productSlice'
 import { RootState } from 'store/store'
 import { Modal } from 'ui/Modal'
 import { useThunkDispatch } from 'utils/hooks'
@@ -23,7 +23,7 @@ const UpdateProductForm: FC<Props> = ({ product, close, isOpen }) => {
 
   const handleUpdateProduct: SubmitHandler<ProductEntity> = (data) => {
     dispatch(
-      updateProductThunk({
+      updateProductAsyncThunk({
         data: {
           name: data.name,
           price: data.price,

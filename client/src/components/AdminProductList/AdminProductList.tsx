@@ -2,12 +2,15 @@ import { ProductEntity } from 'entities/ProductEntity'
 import UpdateProductForm from 'layouts/AdminLayout/components/UpdateProductForm'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { deleteProductThunk, getProductsThunk } from 'store/slices/productSlice'
-import { RootState } from 'store/store'
+import {
+  deleteProductAsyncThunk,
+  getProductsAsyncThunk,
+  selectors,
+} from 'store/slices/productSlice'
 import { useModal, useThunkDispatch } from 'utils/hooks'
 
 const AdminProductList: FC = () => {
-  const products = useSelector((state: RootState) => state.products.products)
+  const products = useSelector(selectors.products)
 
   const { isOpen, open, close } = useModal()
 
@@ -31,7 +34,7 @@ const AdminProductList: FC = () => {
   const dispatch = useThunkDispatch()
 
   useEffect(() => {
-    dispatch(getProductsThunk())
+    dispatch(getProductsAsyncThunk())
   }, [dispatch])
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const AdminProductList: FC = () => {
 
   const handleDelete = useCallback(
     (product: ProductEntity) => {
-      dispatch(deleteProductThunk(product.id))
+      dispatch(deleteProductAsyncThunk(product.id))
     },
     [dispatch]
   )

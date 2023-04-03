@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import {
   getProducts,
   createProduct,
@@ -6,22 +6,23 @@ import {
   deleteProduct,
 } from 'services/ProductService'
 import { ProductEntity } from 'entities/ProductEntity'
+import { LoadingStatusEntity } from 'entities/LoadingStatusEntity'
 
 type ProductSliceInitialState = {
-  loading: boolean
+  loading: LoadingStatusEntity
   products: ProductEntity[]
   errors: string
 }
 
 const initialState: ProductSliceInitialState = {
-  loading: false,
+  loading: LoadingStatusEntity.NOT_LOADED,
   products: [],
   errors: '',
 }
 
 const STORE_KEY = 'products'
 
-export const getProductsThunk = createAsyncThunk(
+export const getProductsAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/getAll`,
   async () => {
     const response = getProducts()
@@ -29,7 +30,7 @@ export const getProductsThunk = createAsyncThunk(
   }
 )
 
-export const createProductThunk = createAsyncThunk(
+export const createProductAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/create`,
   async (data: Omit<ProductEntity, 'id'>) => {
     const response = await createProduct(data)
@@ -37,7 +38,7 @@ export const createProductThunk = createAsyncThunk(
   }
 )
 
-export const updateProductThunk = createAsyncThunk(
+export const updateProductAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/update`,
   async ({
     data,
@@ -52,7 +53,7 @@ export const updateProductThunk = createAsyncThunk(
   }
 )
 
-export const deleteProductThunk = createAsyncThunk(
+export const deleteProductAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/delete`,
   async (id: string) => {
     await deleteProduct(id)
@@ -65,25 +66,44 @@ export const productSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getProductsThunk.pending, (state) => {
-      state.loading = true
+    builder.addCase(getProductsAsyncThunk.pending, (state) => {
+      state.loading = LoadingStatusEntity.LOADING
     })
-    builder.addCase(getProductsThunk.fulfilled, (state, action) => {
-      state.loading = false
+    builder.addCase(getProductsAsyncThunk.fulfilled, (state, action) => {
+      state.loading = LoadingStatusEntity.LOADED
       state.products = action.payload
     })
-    builder.addCase(createProductThunk.fulfilled, (state, action) => {
+    builder.addCase(createProductAsyncThunk.fulfilled, (state, action) => {
       state.products = [...state.products, action.payload]
     })
-    builder.addCase(updateProductThunk.fulfilled, (state, action) => {
+    builder.addCase(updateProductAsyncThunk.fulfilled, (state, action) => {
       state.products = state.products.map((product: ProductEntity) =>
         product.id !== action.payload.id ? product : action.payload
       )
     })
-    builder.addCase(deleteProductThunk.fulfilled, (state, action) => {
+    builder.addCase(deleteProductAsyncThunk.fulfilled, (state, action) => {
       state.products = state.products.filter(
         (product: ProductEntity) => product.id !== action.payload
       )
     })
   },
 })
+
+const selectSlice = (state: { [STORE_KEY]: ProductSliceInitialState }) =>
+  state[STORE_KEY]
+
+export const selectors = {
+  products: createSelector(selectSlice, (state) => state.products),
+  productsLoaded: createSelector(
+    selectSlice,
+    (state) => state.loading === LoadingStatusEntity.LOADED
+  ),
+  productsLoading: createSelector(
+    selectSlice,
+    (state) => state.loading === LoadingStatusEntity.LOADING
+  ),
+  productsLoadingFailed: createSelector(
+    selectSlice,
+    (state) => state.loading === LoadingStatusEntity.ERROR
+  ),
+}

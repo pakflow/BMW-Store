@@ -43,7 +43,7 @@ const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
         <CreateCategoryForm />
       </Modal>
       <Header />
-      <div className="mt-5 px-4 flex justify-between">{children}</div>
+      <div className="mt-5 px-4">{children}</div>
     </div>
   )
 }

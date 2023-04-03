@@ -1,12 +1,33 @@
 import { FC } from 'react'
 
-const Pagination: FC = () => {
+interface PaginationProps {
+  totalCount: number
+  currentPage: number
+  onPageChange: (page: number) => void
+}
+
+const Pagination: FC<PaginationProps> = ({
+  onPageChange,
+  totalCount,
+  currentPage,
+}) => {
+  const arrOfPages = Array.from({ length: totalCount }, (_, k) => k + 1)
   return (
     <div className="btn-group flex justify-center">
-      <button className="btn btn-ghost">1</button>
-      <button className="btn btn-active">2</button>
-      <button className="btn btn-ghost">3</button>
-      <button className="btn btn-ghost">4</button>
+      {arrOfPages.map((page) => {
+        return (
+          <button
+            className={currentPage === page ? 'btn btn-active' : 'btn'}
+            onClick={() => {
+              if (currentPage !== page) {
+                onPageChange(page)
+              }
+            }}
+          >
+            {page.toString()}
+          </button>
+        )
+      })}
     </div>
   )
 }

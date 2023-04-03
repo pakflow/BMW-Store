@@ -1,7 +1,7 @@
 import { ProductEntity } from 'entities/ProductEntity'
 import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { createProductThunk } from 'store/slices/productSlice'
+import { createProductAsyncThunk } from 'store/slices/productSlice'
 import { useThunkDispatch } from 'utils/hooks'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
@@ -18,7 +18,7 @@ const CreateProductForm: FC = () => {
 
   const handleCreateProduct: SubmitHandler<ProductEntity> = (data) => {
     dispatch(
-      createProductThunk({
+      createProductAsyncThunk({
         name: data.name,
         price: data.price,
         capacity: data.capacity,
@@ -77,9 +77,8 @@ const CreateProductForm: FC = () => {
               <span className="label-text">Image</span>
             </label>
             <input
-              type="url"
-              placeholder="image"
-              className="input input-bordered"
+              type="file"
+              className="file-input w-full max-w-xs"
               {...register('imageUrl')}
             />
           </div>

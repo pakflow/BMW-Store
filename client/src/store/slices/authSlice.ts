@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { googleAuth, login, logout, signUp } from 'utils/auth/auth'
 import { User } from 'firebase/auth'
 
-export const signUpUserThunk = createAsyncThunk(
+export const signUpUserAsyncThunk = createAsyncThunk(
   'auth/signUp',
   async (data: { email: string; password: string }) => {
     const response = await signUp(data.email, data.password)
@@ -10,7 +10,7 @@ export const signUpUserThunk = createAsyncThunk(
   }
 )
 
-export const loginUserThunk = createAsyncThunk(
+export const loginUserAsyncThunk = createAsyncThunk(
   'auth/login',
   async (data: { email: string; password: string }) => {
     const response = await login(data.email, data.password)
@@ -20,18 +20,24 @@ export const loginUserThunk = createAsyncThunk(
   }
 )
 
-export const googleUserThunk = createAsyncThunk('auth/google', async () => {
-  const response = await googleAuth()
-  console.log(response)
-  localStorage.setItem('user', JSON.stringify(response))
-  return response
-})
+export const googleUserAsyncThunk = createAsyncThunk(
+  'auth/google',
+  async () => {
+    const response = await googleAuth()
+    console.log(response)
+    localStorage.setItem('user', JSON.stringify(response))
+    return response
+  }
+)
 
-export const logoutUserThunk = createAsyncThunk('auth/logout', async () => {
-  const response = await logout()
-  localStorage.removeItem('user')
-  return response
-})
+export const logoutUserAsyncThunk = createAsyncThunk(
+  'auth/logout',
+  async () => {
+    const response = await logout()
+    localStorage.removeItem('user')
+    return response
+  }
+)
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -40,16 +46,16 @@ export const authSlice = createSlice({
   } as { user: User | null },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(signUpUserThunk.fulfilled, (state, action) => {
+    builder.addCase(signUpUserAsyncThunk.fulfilled, (state, action) => {
       state.user = action.payload
     })
-    builder.addCase(loginUserThunk.fulfilled, (state, action) => {
+    builder.addCase(loginUserAsyncThunk.fulfilled, (state, action) => {
       state.user = action.payload
     })
-    builder.addCase(logoutUserThunk.fulfilled, (state) => {
+    builder.addCase(logoutUserAsyncThunk.fulfilled, (state) => {
       state.user = null
     })
-    builder.addCase(googleUserThunk.fulfilled, (state, action) => {
+    builder.addCase(googleUserAsyncThunk.fulfilled, (state, action) => {
       state.user = action.payload
     })
   },

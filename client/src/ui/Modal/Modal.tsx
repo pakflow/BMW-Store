@@ -15,14 +15,14 @@ const Modal: FC<PropsWithChildren<ModalProps>> = ({
       <input
         checked={open}
         type="checkbox"
-        id="my-modal-3"
+        id="my-modal-5"
         className="modal-toggle"
       />
 
       <div className="modal">
-        <div className="modal-box relative w-[364px] h-[465px]">
+        <div className="modal-box relative w-[364px] h-[465px] w-4/6 h-full">
           <label
-            htmlFor="my-modal-3"
+            htmlFor="my-modal-5"
             className="btn btn-sm btn-circle absolute right-2 top-2"
             onClick={onClose}
           >

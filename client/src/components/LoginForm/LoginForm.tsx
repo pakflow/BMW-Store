@@ -1,5 +1,8 @@
 import { FC } from 'react'
-import { googleUserThunk, loginUserThunk } from 'store/slices/authSlice'
+import {
+  googleUserAsyncThunk,
+  loginUserAsyncThunk,
+} from 'store/slices/authSlice'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useThunkDispatch } from 'utils/hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -31,7 +34,7 @@ const LoginForm: FC = () => {
 
   const handleLogin: SubmitHandler<FormData> = (data) => {
     dispatch(
-      loginUserThunk({
+      loginUserAsyncThunk({
         email: data.email,
         password: data.password,
       })
@@ -39,7 +42,7 @@ const LoginForm: FC = () => {
   }
 
   const googleLogin = () => {
-    dispatch(googleUserThunk())
+    dispatch(googleUserAsyncThunk())
   }
 
   return (

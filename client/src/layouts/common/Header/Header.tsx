@@ -5,7 +5,7 @@ import profile from '@assets/icons/profile.svg'
 import { useCallback } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useThunkDispatch } from 'utils/hooks'
-import { logoutUserThunk } from 'store/slices/authSlice'
+import { logoutUserAsyncThunk } from 'store/slices/authSlice'
 import { FormData } from '@components/LoginForm/LoginForm'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
@@ -29,7 +29,7 @@ const Header: FC = () => {
   const dispatch = useThunkDispatch()
 
   const handleLogout: SubmitHandler<FormData> = () => {
-    dispatch(logoutUserThunk())
+    dispatch(logoutUserAsyncThunk())
   }
 
   const user = useSelector((state: RootState) => state.auth.user)
