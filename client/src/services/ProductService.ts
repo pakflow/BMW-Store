@@ -7,8 +7,10 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  query,
   QueryDocumentSnapshot,
   updateDoc,
+  where,
 } from 'firebase/firestore'
 import { app } from 'firebaseSetup'
 
@@ -62,10 +64,27 @@ export const createProduct = async (
 }
 
 //Read
-export const getProducts = async (): Promise<ProductEntity[]> => {
+export const getProducts = async (
+  search?: string,
+  priceQuery?: number,
+  yearQuery?: number,
+  engineQuery?: string,
+  capacityQuery?: number
+): Promise<ProductEntity[]> => {
   const docRef = collection(db, STORE_KEY).withConverter(productConverter)
 
-  const response = await getDocs(docRef)
+  let response
+
+  const filters = []
+
+  if (search) filters.push(where('name', '>=', search))
+  if (priceQuery) filters.push(where('price', '>=', priceQuery))
+  if (yearQuery) filters.push(where('buildYear', '>=', yearQuery))
+  if (engineQuery) filters.push(where('category', '==', engineQuery))
+  if (capacityQuery) filters.push(where('capacity', '==', capacityQuery))
+
+  const q = query(docRef, ...filters)
+  response = await getDocs(q)
 
   return response.docs.map((doc) => ({
     ...doc.data(),

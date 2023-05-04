@@ -8,13 +8,11 @@ import 'assets/css/normalize.css'
 
 const App = () => {
   return (
-    <>
-      <Provider store={store}>
-        <AuthContextProvider>
-          <RouterProvider router={router} />
-        </AuthContextProvider>
-      </Provider>
-    </>
+    <Provider store={store}>
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
+    </Provider>
   )
 }
 

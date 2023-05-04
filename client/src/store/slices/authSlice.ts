@@ -1,9 +1,24 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import { googleAuth, login, logout, signUp } from 'utils/auth/auth'
 import { User } from 'firebase/auth'
+import { LoadingStatusEntity } from 'entities/LoadingStatusEntity'
+
+const STORE_KEY = 'auth'
+
+interface UserInitialState {
+  user: User | null
+  loading: LoadingStatusEntity
+  errors: string
+}
+
+const initialState: UserInitialState = {
+  user: JSON.parse(localStorage.getItem('user') ?? 'null'),
+  loading: LoadingStatusEntity.NOT_LOADED,
+  errors: '',
+}
 
 export const signUpUserAsyncThunk = createAsyncThunk(
-  'auth/signUp',
+  `${STORE_KEY}/signUp`,
   async (data: { email: string; password: string }) => {
     const response = await signUp(data.email, data.password)
     return response.user
@@ -11,27 +26,25 @@ export const signUpUserAsyncThunk = createAsyncThunk(
 )
 
 export const loginUserAsyncThunk = createAsyncThunk(
-  'auth/login',
+  `${STORE_KEY}/login`,
   async (data: { email: string; password: string }) => {
     const response = await login(data.email, data.password)
-    console.log(response.user)
     localStorage.setItem('user', JSON.stringify(response.user))
     return response.user
   }
 )
 
 export const googleUserAsyncThunk = createAsyncThunk(
-  'auth/google',
+  `${STORE_KEY}/google`,
   async () => {
     const response = await googleAuth()
-    console.log(response)
     localStorage.setItem('user', JSON.stringify(response))
     return response
   }
 )
 
 export const logoutUserAsyncThunk = createAsyncThunk(
-  'auth/logout',
+  `${STORE_KEY}/logout`,
   async () => {
     const response = await logout()
     localStorage.removeItem('user')
@@ -40,16 +53,18 @@ export const logoutUserAsyncThunk = createAsyncThunk(
 )
 
 export const authSlice = createSlice({
-  name: 'auth',
-  initialState: {
-    user: JSON.parse(localStorage.getItem('user') ?? 'null'),
-  } as { user: User | null },
+  name: STORE_KEY,
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(signUpUserAsyncThunk.fulfilled, (state, action) => {
       state.user = action.payload
     })
+    builder.addCase(loginUserAsyncThunk.pending, (state) => {
+      state.loading = LoadingStatusEntity.LOADING
+    })
     builder.addCase(loginUserAsyncThunk.fulfilled, (state, action) => {
+      state.loading = LoadingStatusEntity.LOADED
       state.user = action.payload
     })
     builder.addCase(logoutUserAsyncThunk.fulfilled, (state) => {
@@ -60,3 +75,22 @@ export const authSlice = createSlice({
     })
   },
 })
+
+const selectSlice = (state: { [STORE_KEY]: UserInitialState }) =>
+  state[STORE_KEY]
+
+export const userSelectors = {
+  user: createSelector(selectSlice, (state) => state.user),
+  userLoaded: createSelector(
+    selectSlice,
+    (state) => state.loading === LoadingStatusEntity.LOADED
+  ),
+  userLoading: createSelector(
+    selectSlice,
+    (state) => state.loading === LoadingStatusEntity.LOADING
+  ),
+  userLoadingFailed: createSelector(
+    selectSlice,
+    (state) => state.loading === LoadingStatusEntity.ERROR
+  ),
+}

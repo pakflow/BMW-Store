@@ -2,13 +2,13 @@ import { FC } from 'react'
 import {
   googleUserAsyncThunk,
   loginUserAsyncThunk,
+  userSelectors,
 } from 'store/slices/authSlice'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useThunkDispatch } from 'utils/hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from 'utils/yup/yup'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/store'
 import { Link } from 'react-router-dom'
 
 export type FormData = {
@@ -30,7 +30,7 @@ const LoginForm: FC = () => {
   })
   const dispatch = useThunkDispatch()
 
-  const user = useSelector((state: RootState) => state.auth.user)
+  const user = useSelector(userSelectors.user)
 
   const handleLogin: SubmitHandler<FormData> = (data) => {
     dispatch(

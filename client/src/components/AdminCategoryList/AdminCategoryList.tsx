@@ -1,15 +1,15 @@
 import { CategoryEntity } from 'entities/CategoryEntity'
-import UpdateCategoryForm from 'layouts/AdminLayout/components/UpdateCategoryForm'
+import { UpdateCategoryForm } from 'layouts/AdminLayout/components'
 import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { deleteCategoryAsyncThunk } from 'store/slices/categoriesSlice'
-import { RootState } from 'store/store'
+import {
+  categoriesSelectors,
+  deleteCategoryAsyncThunk,
+} from 'store/slices/categoriesSlice'
 import { useModal, useThunkDispatch } from 'utils/hooks'
 
 const AdminCategoryList = () => {
-  const categories = useSelector(
-    (state: RootState) => state.categories.categories
-  )
+  const categories = useSelector(categoriesSelectors.categories)
 
   const dispatch = useThunkDispatch()
 

@@ -2,7 +2,7 @@ import { CategoryEntity } from 'entities/CategoryEntity'
 import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { updateCategoryAsyncThunk } from 'store/slices/categoriesSlice'
-import { Modal } from 'ui/Modal'
+import { Modal } from 'ui'
 import { useThunkDispatch } from 'utils/hooks'
 
 interface Props {

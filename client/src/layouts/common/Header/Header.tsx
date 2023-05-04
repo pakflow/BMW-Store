@@ -5,11 +5,11 @@ import profile from '@assets/icons/profile.svg'
 import { useCallback } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useThunkDispatch } from 'utils/hooks'
-import { logoutUserAsyncThunk } from 'store/slices/authSlice'
+import { logoutUserAsyncThunk, userSelectors } from 'store/slices/authSlice'
 import { FormData } from '@components/LoginForm/LoginForm'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/store'
 import { Link } from 'react-router-dom'
+import { cartSelectors } from 'store/slices/cartSlice'
 
 const Header: FC = () => {
   const openCart = useCallback(() => {
@@ -32,7 +32,9 @@ const Header: FC = () => {
     dispatch(logoutUserAsyncThunk())
   }
 
-  const user = useSelector((state: RootState) => state.auth.user)
+  const user = useSelector(userSelectors.user)
+  const cartProducts = useSelector(cartSelectors.cartProducts)
+  const totalPrice = useSelector(cartSelectors.totalPrice)
 
   return (
     <div className="p-4">
@@ -48,7 +50,9 @@ const Header: FC = () => {
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <div className="indicator flex justify-center">
                 <img className="w-8 h-8" src={basket} alt="basket" />
-                <span className="badge badge-sm indicator-item">8</span>
+                <span className="badge badge-sm indicator-item">
+                  {cartProducts.length}
+                </span>
               </div>
             </label>
             <div
@@ -56,8 +60,10 @@ const Header: FC = () => {
               className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow"
             >
               <div className="card-body">
-                <span className="font-bold text-lg">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
+                <span className="font-bold text-lg">
+                  {cartProducts.length} Items
+                </span>
+                <span className="text-info">Subtotal: ${totalPrice}</span>
                 <div className="card-actions">
                   <button
                     onClick={openCart}

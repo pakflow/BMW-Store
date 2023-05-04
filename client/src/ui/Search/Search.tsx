@@ -1,13 +1,20 @@
-import React from 'react'
+import { FC } from 'react'
 
-const Search = () => {
+interface SearchProps {
+  value: string
+  onInput: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+const Search: FC<SearchProps> = ({ value, onInput }) => {
   return (
-    <div className="form-control pl-5">
+    <div className="form-control pl-4 w-full">
       <div className="input-group">
         <input
           type="text"
           placeholder="Search…"
           className="input input-bordered w-full bg-slate-300"
+          value={value}
+          onInput={onInput}
         />
         <button className="btn btn-square">
           <svg

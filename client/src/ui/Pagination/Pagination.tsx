@@ -11,20 +11,20 @@ const Pagination: FC<PaginationProps> = ({
   totalCount,
   currentPage,
 }) => {
-  const arrOfPages = Array.from({ length: totalCount }, (_, k) => k + 1)
+  const arrOfPages = new Array(totalCount).fill(null)
   return (
     <div className="btn-group flex justify-center">
-      {arrOfPages.map((page) => {
+      {arrOfPages.map((_, page) => {
         return (
           <button
-            className={currentPage === page ? 'btn btn-active' : 'btn'}
+            className={currentPage === page + 1 ? 'btn btn-active' : 'btn'}
             onClick={() => {
-              if (currentPage !== page) {
-                onPageChange(page)
+              if (currentPage !== page + 1) {
+                onPageChange(page + 1)
               }
             }}
           >
-            {page.toString()}
+            {page + 1}
           </button>
         )
       })}

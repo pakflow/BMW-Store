@@ -2,19 +2,25 @@ import { ProductEntity } from 'entities/ProductEntity'
 import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import { getCategoriesAsyncThunk } from 'store/slices/categoriesSlice'
+import {
+  categoriesSelectors,
+  getCategoriesAsyncThunk,
+} from 'store/slices/categoriesSlice'
 import { updateProductAsyncThunk } from 'store/slices/productSlice'
-import { RootState } from 'store/store'
-import { Modal } from 'ui/Modal'
 import { useThunkDispatch } from 'utils/hooks'
+import { Modal } from 'ui'
 
-interface Props {
+interface UpdateProductFormProps {
   product: ProductEntity
   close: () => void
   isOpen: boolean
 }
 
-const UpdateProductForm: FC<Props> = ({ product, close, isOpen }) => {
+const UpdateProductForm: FC<UpdateProductFormProps> = ({
+  product,
+  close,
+  isOpen,
+}) => {
   const { register, handleSubmit } = useForm<ProductEntity>({
     defaultValues: product,
   })
@@ -26,23 +32,21 @@ const UpdateProductForm: FC<Props> = ({ product, close, isOpen }) => {
       updateProductAsyncThunk({
         data: {
           name: data.name,
-          price: data.price,
+          price: +data.price,
           capacity: data.capacity,
-          buildYear: data.buildYear,
+          buildYear: +data.buildYear,
           imageUrl: data.imageUrl,
           id: data.id,
           description: data.description,
           category: data.category,
-          rating: data.rating,
+          rating: +data.rating,
         },
         onSuccess: () => close(),
       })
     )
   }
 
-  const categories = useSelector(
-    (state: RootState) => state.categories.categories
-  )
+  const categories = useSelector(categoriesSelectors.categories)
 
   useEffect(() => {
     dispatch(getCategoriesAsyncThunk())

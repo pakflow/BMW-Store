@@ -8,7 +8,15 @@ import {
 import { ProductEntity } from 'entities/ProductEntity'
 import { LoadingStatusEntity } from 'entities/LoadingStatusEntity'
 
-type ProductSliceInitialState = {
+interface QueryData {
+  search: string
+  priceQuery: number
+  yearQuery: number
+  engineQuery: string
+  capacityQuery: number
+}
+
+interface ProductSliceInitialState {
   loading: LoadingStatusEntity
   products: ProductEntity[]
   errors: string
@@ -24,8 +32,16 @@ const STORE_KEY = 'products'
 
 export const getProductsAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/getAll`,
-  async () => {
-    const response = getProducts()
+  async (filters: Partial<QueryData>) => {
+    const { search, priceQuery, yearQuery, engineQuery, capacityQuery } =
+      filters
+    const response = getProducts(
+      search,
+      priceQuery,
+      yearQuery,
+      engineQuery,
+      capacityQuery
+    )
     return response
   }
 )
@@ -92,7 +108,7 @@ export const productSlice = createSlice({
 const selectSlice = (state: { [STORE_KEY]: ProductSliceInitialState }) =>
   state[STORE_KEY]
 
-export const selectors = {
+export const productsSelectors = {
   products: createSelector(selectSlice, (state) => state.products),
   productsLoaded: createSelector(
     selectSlice,

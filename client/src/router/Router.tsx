@@ -1,5 +1,5 @@
-import AdminPage from 'pages/AdminPage/AdminPage'
-import MainPage from 'pages/MainPage/MainPage'
+import { AdminPage } from 'pages'
+import { MainPage } from 'pages'
 import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([

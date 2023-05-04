@@ -1,0 +1,8 @@
+export enum OrderStatusEntity {
+  PAID = 'PAID',
+  IS_PROCESSING = 'IS_PROCESSING',
+  IS_PROCESSED = 'PROCESSED',
+  SENT = 'SENT',
+  CANCELLED = 'CANCELLED',
+  COMPLETED = 'COMPLETED',
+}

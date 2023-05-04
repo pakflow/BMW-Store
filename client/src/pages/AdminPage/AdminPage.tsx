@@ -1,7 +1,6 @@
-import AdminCategoryList from '@components/AdminCategoryList/AdminCategoryList'
-import AdminProductList from '@components/AdminProductList/AdminProductList'
-import AdminLayout from 'layouts/AdminLayout/AdminLayout'
 import { FC } from 'react'
+import { AdminCategoryList, AdminProductList } from '@components/index'
+import { AdminLayout } from 'layouts'
 
 const AdminPage: FC = () => {
   return (

@@ -1,9 +1,9 @@
-import Header from 'layouts/common/Header/Header'
+import { Header } from 'layouts'
 import { FC, PropsWithChildren, useEffect } from 'react'
-import { Modal } from 'ui/Modal'
+import { Modal } from 'ui'
 import { useModal } from 'utils/hooks'
-import CreateCategoryForm from './components/CreateCategoryForm'
-import CreateProductForm from './components/CreateProductForm'
+import { CreateCategoryForm } from './components'
+import { CreateProductForm } from './components'
 
 const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
   const {

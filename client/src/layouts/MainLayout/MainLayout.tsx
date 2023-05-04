@@ -1,12 +1,12 @@
-import { FC, PropsWithChildren } from 'react'
-import { Cart } from '@components/Cart'
-import { Drawer } from 'ui/Drawer'
-import { Header } from '../common/Header'
+import { FC, PropsWithChildren, useCallback } from 'react'
+import { useModal, useThunkDispatch } from 'utils/hooks'
 import { useEffect } from 'react'
-import { Modal } from 'ui/Modal'
-import { LoginForm } from '@components/LoginForm'
-import { SignupForm } from '@components/SignupForm'
-import { useModal } from 'utils/hooks'
+import { Drawer, Modal } from 'ui'
+import { Header } from 'layouts'
+import { LoginForm, SignupForm, Cart } from '@components/index'
+import { cartSelectors, cartSlice } from 'store/slices/cartSlice'
+import { useSelector } from 'react-redux'
+import { ProductEntity } from 'entities/ProductEntity'
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const { isOpen: isOpenCart, open: openCart, close: closeCart } = useModal()
@@ -16,6 +16,18 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
     open: openSignup,
     close: closeSignup,
   } = useModal()
+
+  const dispacth = useThunkDispatch()
+
+  const cartProducts = useSelector(cartSelectors.cartProducts)
+  const totalPrice = useSelector(cartSelectors.totalPrice)
+
+  const deletePosition = useCallback(
+    (product: ProductEntity) => {
+      dispacth(cartSlice.actions.removeFromCart(product))
+    },
+    [dispacth]
+  )
 
   useEffect(() => {
     window.addEventListener('BS:open_cart', openCart)
@@ -42,7 +54,18 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   }, [openSignup])
 
   return (
-    <Drawer open={isOpenCart} onClose={closeCart} end content={<Cart />}>
+    <Drawer
+      open={isOpenCart}
+      onClose={closeCart}
+      end
+      content={
+        <Cart
+          cartProducts={cartProducts}
+          onDeletePosition={deletePosition}
+          totalPrice={totalPrice}
+        />
+      }
+    >
       <div>
         <Modal open={isOpenAuth} onClose={closeAuth}>
           <LoginForm />

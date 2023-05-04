@@ -27,6 +27,5 @@ export const googleAuth = () => {
 }
 
 export const logout = () => {
-  console.log(auth)
   return signOut(auth)
 }

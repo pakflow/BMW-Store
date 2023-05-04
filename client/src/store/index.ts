@@ -1,0 +1,5 @@
+export * from './store'
+export * as productsState from './slices/productSlice'
+export * as categoriesState from './slices/categoriesSlice'
+export * as productState from './slices/singleProductSlice'
+export * as userState from './slices/authSlice'

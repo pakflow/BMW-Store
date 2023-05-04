@@ -1,26 +1,23 @@
 import { FC } from 'react'
-import { Search } from 'ui/Search'
 
 const ProductsLoading: FC = () => {
   const totalPulseCards = Array.from({ length: 8 }, (_, k) => k)
   return (
     <div>
-      <Search />
       <div className="grid grid-cols-4">
         {totalPulseCards.map(() => (
-          <div className="card w-80 h-72 m-4 bg-base-100 shadow-xl">
-            <figure className="">
-              <div className="animate-pulse" />
-            </figure>
+          <div className="card w-80 h-72 m-4 bg-base-100 shadow-xl animate-pulse">
+            <div className="bg-gray-700 rounded-xl w-full h-36"></div>
             <div className="card-body">
-              <p className="card-title w-15 h-2 text-lg animate-pulse"></p>
-              <div className="card-actions justify-end animate-pulse">
-                <button className="btn w-16 animate-pulse"></button>
+              <div className="bg-gray-700 rounded-xl w-48 h-8"></div>
+              <div className="card-actions justify-end">
+                <button className="bg-gray-700 rounded-xl w-14 h-10"></button>
               </div>
             </div>
           </div>
         ))}
       </div>
+      <div className="bg-gray-700 rounded-xl w-48 h-14 mx-auto animate-pulse"></div>
     </div>
   )
 }

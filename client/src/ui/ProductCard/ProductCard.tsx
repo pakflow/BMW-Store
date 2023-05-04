@@ -1,10 +1,11 @@
 import { ProductEntity } from 'entities/ProductEntity'
 import { FC } from 'react'
-interface Props {
+interface ProductCardProps {
   product: ProductEntity
+  addToCart: (product: ProductEntity) => void
 }
 
-const ProductCard: FC<Props> = ({ product }) => {
+const ProductCard: FC<ProductCardProps> = ({ product, addToCart }) => {
   return (
     <div className="card w-80 h-72 m-4 bg-base-100 shadow-xl">
       <figure>
@@ -12,8 +13,11 @@ const ProductCard: FC<Props> = ({ product }) => {
       </figure>
       <div className="card-body">
         <h2 className="card-title text-lg">{product.name}</h2>
+        <p className="text-sm">{product.price} USD</p>
         <div className="card-actions justify-end">
-          <button className="btn w-15">Buy</button>
+          <button className="btn w-15" onClick={() => addToCart(product)}>
+            Buy
+          </button>
         </div>
       </div>
     </div>

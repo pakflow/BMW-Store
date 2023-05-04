@@ -1,16 +1,16 @@
 import { ProductEntity } from 'entities/ProductEntity'
-import UpdateProductForm from 'layouts/AdminLayout/components/UpdateProductForm'
+import { UpdateProductForm } from 'layouts/AdminLayout/components'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
   deleteProductAsyncThunk,
   getProductsAsyncThunk,
-  selectors,
+  productsSelectors,
 } from 'store/slices/productSlice'
 import { useModal, useThunkDispatch } from 'utils/hooks'
 
 const AdminProductList: FC = () => {
-  const products = useSelector(selectors.products)
+  const products = useSelector(productsSelectors.products)
 
   const { isOpen, open, close } = useModal()
 
@@ -34,7 +34,7 @@ const AdminProductList: FC = () => {
   const dispatch = useThunkDispatch()
 
   useEffect(() => {
-    dispatch(getProductsAsyncThunk())
+    dispatch(getProductsAsyncThunk({}))
   }, [dispatch])
 
   useEffect(() => {

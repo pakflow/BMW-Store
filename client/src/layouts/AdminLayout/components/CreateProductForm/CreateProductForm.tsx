@@ -1,31 +1,33 @@
 import { ProductEntity } from 'entities/ProductEntity'
 import { FC, useEffect } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { createProductAsyncThunk } from 'store/slices/productSlice'
 import { useThunkDispatch } from 'utils/hooks'
 import { useSelector } from 'react-redux'
-import { RootState } from 'store/store'
-import { getCategoriesAsyncThunk } from 'store/slices/categoriesSlice'
+import {
+  categoriesSelectors,
+  getCategoriesAsyncThunk,
+} from 'store/slices/categoriesSlice'
+import { uploadFile } from 'services/FileService'
+import { FileUploader } from '@components/index'
 
 const CreateProductForm: FC = () => {
-  const { register, handleSubmit } = useForm<ProductEntity>()
+  const { register, handleSubmit, control } = useForm<ProductEntity>()
 
   const dispatch = useThunkDispatch()
 
-  const categories = useSelector(
-    (state: RootState) => state.categories.categories
-  )
+  const categories = useSelector(categoriesSelectors.categories)
 
   const handleCreateProduct: SubmitHandler<ProductEntity> = (data) => {
     dispatch(
       createProductAsyncThunk({
         name: data.name,
-        price: data.price,
-        capacity: data.capacity,
-        buildYear: data.buildYear,
+        price: +data.price,
+        capacity: +data.capacity,
+        buildYear: +data.buildYear,
         imageUrl: data.imageUrl,
         description: data.description,
-        rating: 0,
+        rating: +0,
         category: data.category,
       })
     )
@@ -76,10 +78,16 @@ const CreateProductForm: FC = () => {
             <label className="label">
               <span className="label-text">Image</span>
             </label>
-            <input
-              type="file"
-              className="file-input w-full max-w-xs"
-              {...register('imageUrl')}
+            <Controller
+              control={control}
+              name="imageUrl"
+              render={({ field: { onChange, value } }) => (
+                <FileUploader
+                  upload={uploadFile}
+                  value={value}
+                  onChange={onChange}
+                />
+              )}
             />
           </div>
           <div className="form-control">

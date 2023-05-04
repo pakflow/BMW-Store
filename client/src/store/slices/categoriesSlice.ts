@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import { CategoryEntity } from 'entities/CategoryEntity'
 import {
   createCategory,
@@ -86,3 +86,10 @@ export const categoriesSlice = createSlice({
     })
   },
 })
+
+const selectSlice = (state: { [STORE_KEY]: CategoriesSliceInitialState }) =>
+  state[STORE_KEY]
+
+export const categoriesSelectors = {
+  categories: createSelector(selectSlice, (state) => state.categories),
+}
