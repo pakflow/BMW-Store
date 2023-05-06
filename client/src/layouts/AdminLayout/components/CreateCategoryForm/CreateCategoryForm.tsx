@@ -5,7 +5,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { createCategoryAsyncThunk } from 'store/slices/categoriesSlice'
 import { useThunkDispatch } from 'utils/hooks'
 
-const CreateCategoryForm: FC = () => {
+interface CreateCategoryFormProps {
+  close: () => void
+}
+
+const CreateCategoryForm: FC<CreateCategoryFormProps> = ({ close }) => {
   const { handleSubmit, register } = useForm<CategoryEntity>()
 
   const dispatch = useThunkDispatch()
@@ -13,8 +17,11 @@ const CreateCategoryForm: FC = () => {
   const handleCreateCategory: SubmitHandler<CategoryEntity> = (data) => {
     dispatch(
       createCategoryAsyncThunk({
-        category: data.category,
-        id: uuidv4(),
+        data: {
+          category: data.category,
+          id: uuidv4(),
+        },
+        onSuccess: () => close(),
       })
     )
   }

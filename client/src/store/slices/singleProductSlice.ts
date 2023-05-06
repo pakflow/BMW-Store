@@ -1,15 +1,16 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import { getSingleProduct } from 'services/ProductService'
 import { ProductEntity } from 'entities/ProductEntity'
+import { LoadingStatusEntity } from 'entities/LoadingStatusEntity'
 
 type SingleProductSliceInitialState = {
-  loading: boolean
+  loading: LoadingStatusEntity
   product: ProductEntity | null
   errors: string
 }
 
 const initialState: SingleProductSliceInitialState = {
-  loading: false,
+  loading: LoadingStatusEntity.NOT_LOADED,
   product: null,
   errors: '',
 }
@@ -35,3 +36,10 @@ export const singleProductSlice = createSlice({
     })
   },
 })
+
+const selectSlice = (state: { [STORE_KEY]: SingleProductSliceInitialState }) =>
+  state[STORE_KEY]
+
+export const singleProductSelector = {
+  singleProduct: createSelector(selectSlice, (state) => state.product),
+}

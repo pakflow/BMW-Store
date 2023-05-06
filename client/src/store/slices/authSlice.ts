@@ -19,17 +19,31 @@ const initialState: UserInitialState = {
 
 export const signUpUserAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/signUp`,
-  async (data: { email: string; password: string }) => {
+  async ({
+    data,
+    onSuccess,
+  }: {
+    data: { email: string; password: string }
+    onSuccess: () => void
+  }) => {
     const response = await signUp(data.email, data.password)
+    onSuccess?.()
     return response.user
   }
 )
 
 export const loginUserAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/login`,
-  async (data: { email: string; password: string }) => {
+  async ({
+    data,
+    onSuccess,
+  }: {
+    data: { email: string; password: string }
+    onSuccess: () => void
+  }) => {
     const response = await login(data.email, data.password)
     localStorage.setItem('user', JSON.stringify(response.user))
+    onSuccess?.()
     return response.user
   }
 )

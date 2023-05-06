@@ -40,7 +40,7 @@ const ProductList: FC<ProductsProps> = ({
 
   const productsList = useMemo(() => {
     return products.length ? (
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-4 mr-4">
         {productsSliced.map((product: ProductEntity) => {
           return (
             <ProductCard

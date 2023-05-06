@@ -3,12 +3,10 @@ import { ProductEntity } from 'entities/ProductEntity'
 
 interface CartSliceInitialState {
   cartProducts: ProductEntity[]
-  totalPrice: number
 }
 
 const initialState: CartSliceInitialState = {
-  cartProducts: [],
-  totalPrice: 0,
+  cartProducts: JSON.parse(localStorage.getItem('cart_products') ?? 'null'),
 }
 
 const STORE_KEY = 'cart'
@@ -19,13 +17,13 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action: PayloadAction<ProductEntity>) => {
       state.cartProducts = [...state.cartProducts, action.payload]
-      state.totalPrice += action.payload.price
+      localStorage.setItem('cart_products', JSON.stringify(state.cartProducts))
     },
     removeFromCart: (state, action: PayloadAction<ProductEntity>) => {
       state.cartProducts = state.cartProducts.filter(
         (product: ProductEntity) => product.id !== action.payload.id
       )
-      state.totalPrice = state.totalPrice - action.payload.price
+      localStorage.setItem('cart_products', JSON.stringify(state.cartProducts))
     },
   },
 })
@@ -37,5 +35,4 @@ const selectSlice = (state: { [STORE_KEY]: CartSliceInitialState }) =>
 
 export const cartSelectors = {
   cartProducts: createSelector(selectSlice, (state) => state.cartProducts),
-  totalPrice: createSelector(selectSlice, (state) => state.totalPrice),
 }

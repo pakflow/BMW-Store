@@ -60,7 +60,7 @@ const Filterbar: FC<FilterbarProps> = ({
           <label className="label">
             <span className="label-text">engine</span>
           </label>
-          <select className="select select-bordered">
+          <select className="select select-bordered" onSelect={handleEngine}>
             <option disabled selected>
               choose one
             </option>

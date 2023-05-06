@@ -16,7 +16,11 @@ export type FormData = {
   password: string
 }
 
-const LoginForm: FC = () => {
+interface LoginFormProps {
+  close: () => void
+}
+
+const LoginForm: FC<LoginFormProps> = ({ close }) => {
   const {
     register,
     handleSubmit,
@@ -35,8 +39,11 @@ const LoginForm: FC = () => {
   const handleLogin: SubmitHandler<FormData> = (data) => {
     dispatch(
       loginUserAsyncThunk({
-        email: data.email,
-        password: data.password,
+        data: {
+          email: data.email,
+          password: data.password,
+        },
+        onSuccess: () => close(),
       })
     )
   }

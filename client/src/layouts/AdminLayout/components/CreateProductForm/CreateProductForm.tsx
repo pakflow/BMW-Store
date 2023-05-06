@@ -11,7 +11,11 @@ import {
 import { uploadFile } from 'services/FileService'
 import { FileUploader } from '@components/index'
 
-const CreateProductForm: FC = () => {
+interface CreateProductFormProps {
+  close: () => void
+}
+
+const CreateProductForm: FC<CreateProductFormProps> = ({ close }) => {
   const { register, handleSubmit, control } = useForm<ProductEntity>()
 
   const dispatch = useThunkDispatch()
@@ -21,14 +25,17 @@ const CreateProductForm: FC = () => {
   const handleCreateProduct: SubmitHandler<ProductEntity> = (data) => {
     dispatch(
       createProductAsyncThunk({
-        name: data.name,
-        price: +data.price,
-        capacity: +data.capacity,
-        buildYear: +data.buildYear,
-        imageUrl: data.imageUrl,
-        description: data.description,
-        rating: +0,
-        category: data.category,
+        data: {
+          name: data.name,
+          price: +data.price,
+          capacity: +data.capacity,
+          buildYear: +data.buildYear,
+          imageUrl: data.imageUrl,
+          description: data.description,
+          rating: +0,
+          category: data.category,
+        },
+        onSuccess: () => close(),
       })
     )
   }

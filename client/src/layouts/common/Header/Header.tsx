@@ -11,7 +11,11 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { cartSelectors } from 'store/slices/cartSlice'
 
-const Header: FC = () => {
+interface HeaderProps {
+  totalPrice: number
+}
+
+const Header: FC<HeaderProps> = ({ totalPrice }) => {
   const openCart = useCallback(() => {
     window.dispatchEvent(new Event('BS:open_cart'))
   }, [])
@@ -34,7 +38,6 @@ const Header: FC = () => {
 
   const user = useSelector(userSelectors.user)
   const cartProducts = useSelector(cartSelectors.cartProducts)
-  const totalPrice = useSelector(cartSelectors.totalPrice)
 
   return (
     <div className="p-4">

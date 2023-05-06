@@ -48,8 +48,15 @@ export const getProductsAsyncThunk = createAsyncThunk(
 
 export const createProductAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/create`,
-  async (data: Omit<ProductEntity, 'id'>) => {
+  async ({
+    data,
+    onSuccess,
+  }: {
+    data: Omit<ProductEntity, 'id'>
+    onSuccess?: () => void
+  }) => {
     const response = await createProduct(data)
+    onSuccess?.()
     return response
   }
 )

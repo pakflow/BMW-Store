@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FormData } from '@components/LoginForm/LoginForm'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -5,7 +6,11 @@ import { schema } from 'utils/yup/yup'
 import { useThunkDispatch } from 'utils/hooks'
 import { signUpUserAsyncThunk } from 'store/slices/authSlice'
 
-const SigninForm = () => {
+interface SignupFormProps {
+  close: () => void
+}
+
+const SignupForm: FC<SignupFormProps> = ({ close }) => {
   const {
     register,
     handleSubmit,
@@ -22,8 +27,11 @@ const SigninForm = () => {
   const handleSignup: SubmitHandler<FormData> = (data) => {
     dispatch(
       signUpUserAsyncThunk({
-        email: data.email,
-        password: data.password,
+        data: {
+          email: data.email,
+          password: data.password,
+        },
+        onSuccess: () => close(),
       })
     )
   }
@@ -67,4 +75,4 @@ const SigninForm = () => {
   )
 }
 
-export default SigninForm
+export default SignupForm

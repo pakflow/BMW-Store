@@ -1,17 +1,23 @@
 import { ProductEntity } from 'entities/ProductEntity'
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 
 interface CartProps {
   cartProducts: ProductEntity[]
   onDeletePosition: (product: ProductEntity) => void
   totalPrice: number
+  close: () => void
 }
 
 const Cart: FC<CartProps> = ({
   cartProducts,
   onDeletePosition,
   totalPrice,
+  close,
 }) => {
+  const openCheckout = useCallback(() => {
+    window.dispatchEvent(new Event('BS:open_checkout'))
+    close()
+  }, [close])
   return (
     <div className="menu p-4 bg-base-100 text-base-content">
       <div className="overflow-x-auto w-full my-4">
@@ -73,7 +79,9 @@ const Cart: FC<CartProps> = ({
           <div className="stat-title">Total Price</div>
           <div className="stat-value">${totalPrice}</div>
           <div className="stat-actions">
-            <button className="btn btn-sm btn-success">Checkout</button>
+            <button className="btn btn-sm btn-success" onClick={openCheckout}>
+              Checkout
+            </button>
           </div>
         </div>
       </div>

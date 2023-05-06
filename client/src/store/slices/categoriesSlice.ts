@@ -32,9 +32,15 @@ export const getCategoriesAsyncThunk = createAsyncThunk(
 
 export const createCategoryAsyncThunk = createAsyncThunk(
   `${STORE_KEY}/create`,
-  async (data: CategoryEntity) => {
+  async ({
+    data,
+    onSuccess,
+  }: {
+    data: CategoryEntity
+    onSuccess?: () => void
+  }) => {
     const response = await createCategory(data)
-
+    onSuccess?.()
     return response
   }
 )

@@ -7,11 +7,11 @@ import { useThunkDispatch } from 'utils/hooks'
 
 interface Props {
   category: CategoryEntity
-  onClose: () => void
+  close: () => void
   isOpen: boolean
 }
 
-const UpdateCategoryForm: FC<Props> = ({ category, onClose, isOpen }) => {
+const UpdateCategoryForm: FC<Props> = ({ category, close, isOpen }) => {
   const { handleSubmit, register } = useForm<CategoryEntity>({
     defaultValues: category,
   })
@@ -25,13 +25,13 @@ const UpdateCategoryForm: FC<Props> = ({ category, onClose, isOpen }) => {
           category: data.category,
           id: data.id,
         },
-        onSuccess: onClose,
+        onSuccess: () => close(),
       })
     )
   }
 
   return (
-    <Modal onClose={onClose} open={isOpen}>
+    <Modal onClose={close} open={isOpen}>
       <div className="card-body">
         <form onSubmit={handleSubmit(handleUpdateCategory)}>
           <div className="form-control">

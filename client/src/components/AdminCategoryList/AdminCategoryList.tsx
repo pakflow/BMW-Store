@@ -111,7 +111,7 @@ const AdminCategoryList = () => {
         <UpdateCategoryForm
           category={selectedCategory}
           isOpen={isOpen}
-          onClose={close}
+          close={close}
         />
       ) : null}
     </>

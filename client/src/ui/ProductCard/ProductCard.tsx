@@ -1,14 +1,20 @@
 import { ProductEntity } from 'entities/ProductEntity'
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 interface ProductCardProps {
   product: ProductEntity
   addToCart: (product: ProductEntity) => void
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product, addToCart }) => {
+  const navigate = useNavigate()
+  const goToProductPage = useCallback(() => {
+    navigate(`/product/${product.id}`)
+  }, [product, navigate])
+
   return (
-    <div className="card w-80 h-72 m-4 bg-base-100 shadow-xl">
-      <figure>
+    <div className="card w-96 h-80 m-4 bg-base-100 shadow-xl">
+      <figure className="cursor-pointer" onClick={goToProductPage}>
         <img src={product.imageUrl} alt="bmw" className="w-15 h-15" />
       </figure>
       <div className="card-body">
