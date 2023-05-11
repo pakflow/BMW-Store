@@ -6,13 +6,11 @@ import { LoadingStatusEntity } from 'entities/LoadingStatusEntity'
 type SingleProductSliceInitialState = {
   loading: LoadingStatusEntity
   product: ProductEntity | null
-  errors: string
 }
 
 const initialState: SingleProductSliceInitialState = {
   loading: LoadingStatusEntity.NOT_LOADED,
   product: null,
-  errors: '',
 }
 
 const STORE_KEY = 'product'
@@ -31,8 +29,15 @@ export const singleProductSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // builder.addCase(getSingleProductAsyncThunk.pending, (state) => {
+    //   state.loading = LoadingStatusEntity.LOADING
+    // })
     builder.addCase(getSingleProductAsyncThunk.fulfilled, (state, action) => {
+      // state.loading = LoadingStatusEntity.LOADED
       state.product = action.payload
+    })
+    builder.addCase(getSingleProductAsyncThunk.rejected, (state) => {
+      state.loading = LoadingStatusEntity.ERROR
     })
   },
 })
@@ -42,4 +47,16 @@ const selectSlice = (state: { [STORE_KEY]: SingleProductSliceInitialState }) =>
 
 export const singleProductSelector = {
   singleProduct: createSelector(selectSlice, (state) => state.product),
+  singleProductLoading: createSelector(
+    selectSlice,
+    (state) => (state.loading = LoadingStatusEntity.LOADING)
+  ),
+  singleProductLoaded: createSelector(
+    selectSlice,
+    (state) => (state.loading = LoadingStatusEntity.LOADED)
+  ),
+  singleProductFailed: createSelector(
+    selectSlice,
+    (state) => (state.loading = LoadingStatusEntity.ERROR)
+  ),
 }

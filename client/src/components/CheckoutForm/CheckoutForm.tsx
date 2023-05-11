@@ -6,11 +6,11 @@ const CheckoutForm: FC = () => {
       <form onSubmit={() => {}}>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Email</span>
+            <span className="label-text">First name</span>
           </label>
           <input
-            type="email"
-            placeholder="email"
+            type="text"
+            placeholder="First name"
             className="input input-bordered"
             // {...register('email', { required: true })}
           />
@@ -18,11 +18,11 @@ const CheckoutForm: FC = () => {
         </div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Password</span>
+            <span className="label-text">Last name</span>
           </label>
           <input
-            type="password"
-            placeholder="password"
+            type="text"
+            placeholder="Last name"
             className="input input-bordered"
             // {...register('password', { required: true })}
           />
@@ -30,20 +30,10 @@ const CheckoutForm: FC = () => {
         </div>
         <div className="form-control mt-6">
           <button type="submit" className="btn btn-primary">
-            Login
+            Complete purchase
           </button>
         </div>
       </form>
-      <div>
-        <label className="label flex justify-center">or</label>
-        <span className="label-text">Continue with</span>
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/2875/2875404.png"
-          alt="googleAuth"
-          className="w-6 h-6 inline-block mx-4 cursor-pointer"
-          // onClick={googleLogin}
-        />
-      </div>
     </div>
   )
 }

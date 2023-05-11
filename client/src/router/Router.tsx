@@ -17,6 +17,7 @@ const router = createBrowserRouter([
   {
     path: '/product/:id',
     element: <ProductPage />,
+    errorElement: <div>Not Found</div>,
   },
 ])
 

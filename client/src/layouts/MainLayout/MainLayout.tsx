@@ -96,7 +96,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
           <SignupForm close={closeSignup} />
         </Modal>
         <Modal open={isOpenCbeckout} onClose={closeCheckout}>
-          <CheckoutForm />
+          {user ? <CheckoutForm /> : <LoginForm close={closeAuth} />}
         </Modal>
         {/* Header */}
         <Header totalPrice={totalPrice} />

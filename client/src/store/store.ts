@@ -13,7 +13,7 @@ const rootReducers = combineReducers({
   cart: cartSlice.reducer,
 })
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducers,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
@@ -22,5 +22,3 @@ const store = configureStore({
 export type RootState = ReturnType<typeof rootReducers>
 
 export type AppDispatch = typeof store.dispatch
-
-export default store

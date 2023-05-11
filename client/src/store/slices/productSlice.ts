@@ -19,13 +19,11 @@ interface QueryData {
 interface ProductSliceInitialState {
   loading: LoadingStatusEntity
   products: ProductEntity[]
-  errors: string
 }
 
 const initialState: ProductSliceInitialState = {
   loading: LoadingStatusEntity.NOT_LOADED,
   products: [],
-  errors: '',
 }
 
 const STORE_KEY = 'products'
@@ -95,6 +93,9 @@ export const productSlice = createSlice({
     builder.addCase(getProductsAsyncThunk.fulfilled, (state, action) => {
       state.loading = LoadingStatusEntity.LOADED
       state.products = action.payload
+    })
+    builder.addCase(getProductsAsyncThunk.rejected, (state) => {
+      state.loading = LoadingStatusEntity.ERROR
     })
     builder.addCase(createProductAsyncThunk.fulfilled, (state, action) => {
       state.products = [...state.products, action.payload]

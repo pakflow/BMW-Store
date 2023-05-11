@@ -1,8 +1,8 @@
-import AuthContextProvider from 'context/AuthContextProvider'
+import { AuthContextProvider } from 'context'
 import { Provider } from 'react-redux'
-import store from 'store/store'
+import { store } from 'store'
 import { RouterProvider } from 'react-router-dom'
-import router from 'router/Router'
+import { router } from 'router'
 
 import 'assets/css/normalize.css'
 
