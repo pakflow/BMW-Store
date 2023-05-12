@@ -2,22 +2,22 @@ import { ProductEntity } from 'entities/ProductEntity'
 import { FC, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { singleProductSelector } from 'store/slices/singleProductSlice'
-import ProductProfileLoading from 'ui/ProductProfileLoading/ProductProfileLoading'
+import { ProductProfileLoading } from 'ui'
 interface ProductProfileProps {
   addToCart: (currentProduct: ProductEntity) => void
 }
 
 const ProductProfile: FC<ProductProfileProps> = ({ addToCart }) => {
   const currentProduct = useSelector(singleProductSelector.singleProduct)
-  // const currentProductLoading = useSelector(
-  //   singleProductSelector.singleProductLoading
-  // )
-  // const currentProductLoaded = useSelector(
-  //   singleProductSelector.singleProductLoaded
-  // )
-  // const currentProductFailed = useSelector(
-  //   singleProductSelector.singleProductFailed
-  // )
+  const currentProductLoading = useSelector(
+    singleProductSelector.singleProductLoading
+  )
+  const currentProductLoaded = useSelector(
+    singleProductSelector.singleProductLoaded
+  )
+  const currentProductFailed = useSelector(
+    singleProductSelector.singleProductFailed
+  )
   const data = useMemo(() => {
     if (currentProduct) {
       return (
@@ -62,12 +62,15 @@ const ProductProfile: FC<ProductProfileProps> = ({ addToCart }) => {
     }
   }, [currentProduct, addToCart])
 
-  // if (currentProductLoading) return <ProductProfileLoading />
-  // if (currentProductFailed) {
-  //   return <div>{'smth_went_wrong'}</div>
-  // }
+  if (currentProductLoading) {
+    return <ProductProfileLoading />
+  }
 
-  return <div>{data}</div>
+  if (currentProductFailed) {
+    return <div>{'smth_went_wrong'}</div>
+  }
+
+  return <div>{currentProductLoaded && data}</div>
 }
 
 export default ProductProfile

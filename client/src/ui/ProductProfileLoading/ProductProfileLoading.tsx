@@ -1,27 +1,16 @@
 const ProductProfileLoading = () => {
   return (
     <div className="p-24 grid grid-cols-2 animate-pulse">
-      <img src="" className="w-full" alt="" />
+      <div className="w-full h-80 rounded-xl bg-gray-700"></div>
       <div className="product_descriptions mx-24">
-        <p className="py-4 text-2xl font-bold"></p>
-        <p className="py-2 font-semibold"></p>
-        <p></p>
-        <p className="py-2 font-semibold"></p>
-        <p className="py-2 font-semibold"></p>
-        <p className="py-2 font-semibold"></p>
-        <div className="rating py-2">
-          <input type="radio" name="rating-1" className="mask mask-star" />
-          <input
-            type="radio"
-            name="rating-1"
-            className="mask mask-star"
-            checked
-          />
-          <input type="radio" name="rating-1" className="mask mask-star" />
-          <input type="radio" name="rating-1" className="mask mask-star" />
-          <input type="radio" name="rating-1" className="mask mask-star" />
-        </div>
-        <button className="block my-2 btn">Buy</button>
+        <div className="my-8 w-64 h-12 rounded-xl bg-gray-700"></div>
+        <div className="my-4 w-32 h-6 rounded-xl bg-gray-700"></div>
+        <div></div>
+        <div className="my-4 w-32 h-6 rounded-xl bg-gray-700"></div>
+        <div className="my-4 w-32 h-6 rounded-xl bg-gray-700"></div>
+        <div className="my-4 w-74 h-48 rounded-xl bg-gray-700"></div>
+        <div className="rating my-4 w-24 h-10 rounded-xl bg-gray-700"></div>
+        <button className="block my-4 w-14 h-10 rounded-xl btn"></button>
       </div>
     </div>
   )

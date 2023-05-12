@@ -39,7 +39,7 @@ const MainPage: FC<PropsWithChildren> = () => {
   const [engineQuery, setEngineQuery] = useState<string>('')
   const [capacityQuery, setCapacityQuery] = useState<number>(0)
 
-  useEffect(() => {
+  const getProducts = useCallback(() => {
     dispatch(
       productsState.getProductsAsyncThunk({
         search,
@@ -49,8 +49,19 @@ const MainPage: FC<PropsWithChildren> = () => {
         capacityQuery,
       })
     )
-    dispatch(categoriesState.getCategoriesAsyncThunk())
   }, [dispatch, search, priceQuery, yearQuery, engineQuery, capacityQuery])
+
+  useEffect(() => {
+    getProducts()
+  }, [getProducts])
+
+  const getCategories = useCallback(() => {
+    dispatch(categoriesState.getCategoriesAsyncThunk())
+  }, [dispatch])
+
+  useEffect(() => {
+    getCategories()
+  }, [getCategories])
 
   const engineSelector = useSelector(categoriesSelectors.categories)
 

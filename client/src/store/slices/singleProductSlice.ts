@@ -29,11 +29,11 @@ export const singleProductSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // builder.addCase(getSingleProductAsyncThunk.pending, (state) => {
-    //   state.loading = LoadingStatusEntity.LOADING
-    // })
+    builder.addCase(getSingleProductAsyncThunk.pending, (state) => {
+      state.loading = LoadingStatusEntity.LOADING
+    })
     builder.addCase(getSingleProductAsyncThunk.fulfilled, (state, action) => {
-      // state.loading = LoadingStatusEntity.LOADED
+      state.loading = LoadingStatusEntity.LOADED
       state.product = action.payload
     })
     builder.addCase(getSingleProductAsyncThunk.rejected, (state) => {
@@ -49,14 +49,14 @@ export const singleProductSelector = {
   singleProduct: createSelector(selectSlice, (state) => state.product),
   singleProductLoading: createSelector(
     selectSlice,
-    (state) => (state.loading = LoadingStatusEntity.LOADING)
+    (state) => state.loading === LoadingStatusEntity.LOADING
   ),
   singleProductLoaded: createSelector(
     selectSlice,
-    (state) => (state.loading = LoadingStatusEntity.LOADED)
+    (state) => state.loading === LoadingStatusEntity.LOADED
   ),
   singleProductFailed: createSelector(
     selectSlice,
-    (state) => (state.loading = LoadingStatusEntity.ERROR)
+    (state) => state.loading === LoadingStatusEntity.ERROR
   ),
 }
