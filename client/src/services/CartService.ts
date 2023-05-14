@@ -26,6 +26,12 @@ const checkConverter = {
       totalPrice: check.totalPrice,
       user: check.email,
       status: OrderStatusEntity,
+      firstName: check.firstName,
+      lastName: check.lastName,
+      country: check.country,
+      city: check.city,
+      phoneNumber: check.phoneNumber,
+      adress: check.adress,
     }
   },
   fromFirestore: (snapshot: QueryDocumentSnapshot): Omit<CheckEntity, 'id'> => {
@@ -36,6 +42,12 @@ const checkConverter = {
       totalPrice: data.totalPrice,
       email: data.email,
       status: data.status,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      country: data.country,
+      city: data.city,
+      phoneNumber: data.phoneNumber,
+      adress: data.adress,
     }
   },
 }

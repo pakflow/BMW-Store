@@ -23,13 +23,13 @@ const Filterbar: FC<FilterbarProps> = ({
   handleCapacity,
 }) => {
   return (
-    <div className="w-1/6 bg-slate-300 rounded-lg mr-2 p-4">
+    <div className="w-56 h-max bg-slate-300 rounded-lg mr-2 p-4">
       <div className="filter-header">Filtered by</div>
       {/* price */}
 
       <div className="filter-price">price</div>
       <label className="label">
-        <span className="label-text-alt">6000</span>
+        <span className="label-text-alt">30000</span>
         <span className="label-text-alt">120000</span>
       </label>
       <input

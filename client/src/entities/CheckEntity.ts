@@ -7,4 +7,10 @@ export interface CheckEntity {
   totalPrice: number
   email: string
   status: OrderStatusEntity
+  firstName: string
+  lastName: string
+  country: string
+  city: string
+  adress: string
+  phoneNumber: string
 }
